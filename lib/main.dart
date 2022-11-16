@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dependency_injection/app_info.dart';
 import 'package:flutter_dependency_injection/locator.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   setupLocator();
@@ -12,13 +13,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dependency Injection',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Provider(
+      create: (context) => AppInfo(),
+      child: MaterialApp(
+        title: 'Dependency Injection',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const HomePage(),
       ),
-      home: const HomePage(),
     );
   }
 }
@@ -42,7 +46,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appInfo = locator<AppInfo>();
+    var appInfo = Provider.of<AppInfo>(context);
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Center(
